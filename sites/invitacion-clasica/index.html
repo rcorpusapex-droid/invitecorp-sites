@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Invitación Web | Clásica</title>
+    <meta
+      name="description"
+      content="Plantilla de invitación web estilo clásico. Edita config.js"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;600&family=Montserrat:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <!-- NAV -->
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand" href="#inicio" aria-label="Ir al inicio">INVITACIÓN</a>
+
+        <nav class="nav" aria-label="Navegación principal">
+          <a href="#inicio">INICIO</a>
+          <a href="#itinerario">ITINERARIO</a>
+          <a href="#rsvp">CONFIRMAR ASISTENCIA</a>
+          <a href="#regalos">MESA DE REGALOS</a>
+          <!--         <a href="#hospedaje" id="navHospedaje">HOSPEDAJE</a>-->
+          <a href="#galeria">GALERÍA</a>
+        </nav>
+
+        <button
+          class="burger"
+          id="burger"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Backdrop + Drawer (móvil) -->
+    <div class="backdrop" id="backdrop" hidden></div>
+
+    <aside class="mobile" id="mobile" hidden aria-label="Menú móvil">
+      <button class="mobile__close" id="mobileClose" aria-label="Cerrar menú">
+        ×
+      </button>
+      <nav class="mobile__nav">
+        <a href="#inicio">INICIO</a>
+        <a href="#itinerario">ITINERARIO</a>
+        <a href="#rsvp">CONFIRMAR ASISTENCIA</a>
+        <a href="#regalos">MESA DE REGALOS</a>
+        <a href="#galeria">GALERÍA</a>
+        <!-- <a href="#hospedaje" id="mobileHospedaje">HOSPEDAJE</a> -->
+      </nav>
+    </aside>
+
+    <!-- HERO FOTO FULLSCREEN -->
+    <main id="inicio" class="hero" aria-label="Portada">
+      <div
+        class="hero__bg"
+        id="heroBg"
+        role="img"
+        aria-label="Foto de portada"
+      ></div>
+      <div class="hero__overlay" aria-hidden="true"></div>
+
+      <div class="hero__content">
+        <h1 class="hero__names" id="names"></h1>
+
+        <div class="hero__dateWrap">
+          <div class="hero__line" aria-hidden="true"></div>
+          <p class="hero__date" id="dateText">27 DE ABRIL DEL 2026</p>
+          <div class="hero__line" aria-hidden="true"></div>
+        </div>
+
+        <section class="countdown" aria-label="Cuenta regresiva">
+          <div class="cd"><b id="d">000</b><span>DÍA(S)</span></div>
+          <div class="cd"><b id="h">00</b><span>HORA(S)</span></div>
+          <div class="cd"><b id="m">00</b><span>MINUTO(S)</span></div>
+          <div class="cd"><b id="s">00</b><span>SEGUNDO(S)</span></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- PADRES -->
+    <section id="padres" class="section parents" hidden>
+      <div class="container">
+        <h2 class="parents__title" id="parentsTitle">
+          EN COMPAÑÍA DE NUESTROS PADRES
+        </h2>
+
+        <div class="parents__grid" id="parentsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ITINERARIO -->
+    <section id="itinerario" class="section section--soft">
+      <div class="container">
+        <h2 class="title">ITINERARIO</h2>
+        <div class="cards" id="itinerary"></div>
+      </div>
+    </section>
+
+    <!-- GALERIA -->
+    <section id="galeria" class="section">
+      <div class="container">
+        <h2 class="title">GALERÍA</h2>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
+
+    <!-- REGALOS -->
+    <section id="regalos" class="section section--soft">
+      <div class="container">
+        <h2 class="title">MESA DE REGALOS</h2>
+        <p class="lead" id="giftsIntro"></p>
+
+        <div class="giftGrid giftGrid--tall">
+          <!-- Liverpool -->
+          <a
+            class="giftCard giftCard--tall"
+            id="gift1"
+            href="#"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div class="giftTop">
+              <img class="giftLogo" src="assets/gift-1.svg" alt="Mesa 1" />
+            </div>
+
+            <span class="giftBtn">IR A MESA</span>
+            <div class="giftDivider" aria-hidden="true"></div>
+          </a>
+
+          <!-- Amazon -->
+          <a
+            class="giftCard giftCard--tall"
+            id="gift2"
+            href="#"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div class="giftTop">
+              <img class="giftLogo" src="assets/gift-2.svg" alt="Mesa 2" />
+            </div>
+
+            <span class="giftBtn">IR A MESA</span>
+            <div class="giftDivider" aria-hidden="true"></div>
+          </a>
+
+          <!-- Banco -->
+          <div class="giftCard giftCard--tall giftCard--bank">
+            <div class="giftTop">
+              <div class="giftBankIcon" aria-hidden="true">💳</div>
+              <h3 class="giftBankTitle">CUENTA<br />BANCARIA</h3>
+            </div>
+
+            <div class="giftDivider" aria-hidden="true"></div>
+
+            <div class="giftBankInfo">
+              <p class="giftBankLine" id="bankLine1">
+                BBVA · Titular: Tu Nombre
+              </p>
+              <p class="giftBankLine" id="bankLine2">CLABE/Tarjeta · Cuenta</p>
+              <p class="giftThanks">¡Gracias!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+     <section id="dresscode" class="section">
+  <div class="container">
+    <div class="attireCard" aria-label="Código de vestimenta">
+      <div class="attireCard__head">
+        <div class="attireCard__title">
+          <span class="attireCard__titleA" id="attireTitleA">WEDDING</span>
+          <span class="attireCard__titleB" id="attireTitleB">attire</span>
+        </div>
+
+        <div class="attireCard__sub" id="attireDressCodeLine">DRESS CODE: FORMAL</div>
+      </div>
+
+      <div class="attireCard__rule" aria-hidden="true"></div>
+
+      <div class="attireCard__text" id="attireIntro">
+        WE KINDLY ENCOURAGE OUR GUESTS TO WEAR THESE COLORS FOR OUR SPECIAL DAY
+      </div>
+
+      <div class="attireCard__swatches" id="attireSwatches" aria-label="Paleta de colores"></div>
+
+      <div class="attireCard__foot">
+        <span class="attireCard__thanks" id="attireThanks">thank you!</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- HOSPEDAJE (opcional) 
+  <section id="hospedaje" class="section">
+    <div class="container">
+      <h2 class="title">HOSPEDAJE</h2>
+      <p class="lead" id="lodgingIntro">Sugerencias de hospedaje para nuestros invitados.</p>
+      <div class="lodging" id="lodging"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <small>© <span id="year"></span> · <span id="footerNames">Nombre & Nombre</span></small>
+      <a class="footer__link" href="#" id="contactLink">Contacto</a>
+    </div>
+  </footer> -->
+
+    <!-- CONFIRMAR -->
+    <section id="rsvp" class="section section--soft">
+      <div class="container">
+        <h2 class="title">CONFIRMAR ASISTENCIA</h2>
+        <p class="lead">
+          Nos ayudas confirmando tu asistencia lo antes posible, gracias.
+        </p>
+
+        <form class="form" id="rsvpForm">
+          <div class="formGrid">
+            <label>
+              <span>Nombre</span>
+              <input name="nombre" required placeholder="Escribe tu nombre" />
+            </label>
+            
+            <label>
+              <span>Teléfono (opcional)</span>
+              <input name="telefono" inputmode="tel" placeholder="10 dígitos" />
+            </label>
+
+            <label>
+              <span>¿Asistirás?</span>
+              <select name="asistire" required>
+                <option value="">Selecciona una opción</option>
+                <option value="Si">Sí</option>
+                <option value="No">No</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Número de personas (según tu pase)</span>
+              <select name="personas" required>
+                <option value="">Selecciona una opción</option>
+                <option value="1">Solo yo</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            <span>Mensaje (opcional)</span>
+            <textarea
+              name="mensaje"
+              placeholder="Alergias, nota especial, etc."
+            ></textarea>
+          </label>
+
+          <button class="btn" type="submit">CONFIRMAR</button>
+          <p class="formMsg" id="formMsg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footerSig" id="footer ">
+      <div class="container footerSig__inner">
+        <div class="footerSig__names" id="footerNames">| NOMBRE & NOMBRE |</div>
+
+        <a
+          class="footerSig__brand"
+          id="footerBrand"
+          href="#"
+          target="_blank"
+          rel="noreferrer"
+        >
+          INVITECORP.MX
+        </a>
+
+        <!-- opcional: contacto chiquito abajo -->
+        <a
+          class="footerSig__contact"
+          id="contactLink"
+          href="#"
+          target="_blank"
+          rel="noreferrer"
+        >
+          CONTACTO
+        </a>
+
+        <small class="footerSig__copy">© <span id="year"></span></small>
+      </div>
+    </footer>
+    <!-- LIGHTBOX (Galería) -->
+    <div class="lightbox" id="lightbox" hidden aria-hidden="true">
+      <button class="lb__close" id="lbClose" aria-label="Cerrar">×</button>
+
+      <button class="lb__nav lb__prev" id="lbPrev" aria-label="Anterior">
+        ‹
+      </button>
+
+      <figure class="lb__figure">
+        <img id="lbImg" alt="Foto ampliada" />
+        <figcaption class="lb__caption">
+          <span id="lbCount">1 / 1</span>
+        </figcaption>
+      </figure>
+
+      <button class="lb__nav lb__next" id="lbNext" aria-label="Siguiente">
+        ›
+      </button>
+    </div>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
