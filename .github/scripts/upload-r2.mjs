@@ -34,7 +34,7 @@ function walk(dir) {
     console.log("⬆️ Subiendo:", key);
     execSync(
       `wrangler r2 object put ${BUCKET}/${key} --file ${JSON.stringify(full)} --remote`,
-      { stdio: "inherit" }
+      { stdio: "inherit" },
     );
   }
 }
