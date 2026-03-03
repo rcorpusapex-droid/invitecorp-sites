@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Invitación Web | PREMIUM</title>
+    <meta
+      name="description"
+      content="Plantilla de invitación web estilo clásico. Edita config.js"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;600&family=Montserrat:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- ===== SPLASH (CLICK REAL PARA ACTIVAR AUDIO) ===== -->
+    <section id="splash" class="splash" aria-label="Pantalla de bienvenida">
+      <div class="splash__card">
+        <div class="splash__sealWrap">
+          <button id="sealBtn" class="splash__seal" type="button">
+            <img id="sealImg" class="splash__sealImg" src="" alt="Sello" />
+            <span class="splash__ring"></span>
+            <span id="sealMonogram" class="splash__monogram"
+              >E<span>&amp;</span>M</span
+            >
+          </button>
+        </div>
+
+        <p class="splash__text">
+          Toca en cualquier parte para entrar
+        </p>
+
+        <button id="enterBtn" class="splash__btn" type="button">ENTRAR</button>
+
+        <small class="splash__hint" id="splashHint"></small>
+      </div>
+    </section>
+
+    <!-- NAV -->
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand" href="#inicio" aria-label="Ir al inicio">INVITACIÓN</a>
+
+        <nav class="nav" aria-label="Navegación principal">
+          <a href="#inicio">INICIO</a>
+          <a href="#itinerario">ITINERARIO</a>
+          <a href="#rsvp">CONFIRMAR ASISTENCIA</a>
+          <a href="#regalos">MESA DE REGALOS</a>
+          <a href="#hospedaje" id="navHospedaje">HOSPEDAJE</a>
+          <a href="#galeria">GALERÍA</a>
+          <a href="#agendar">AGENDAR</a>
+        </nav>
+
+        <button
+          class="burger"
+          id="burger"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Backdrop + Drawer (móvil) -->
+    <div class="backdrop" id="backdrop" hidden></div>
+
+    <aside class="mobile" id="mobile" hidden aria-label="Menú móvil">
+      <button class="mobile__close" id="mobileClose" aria-label="Cerrar menú">
+        ×
+      </button>
+      <nav class="mobile__nav">
+        <a href="#inicio">INICIO</a>
+        <a href="#itinerario">ITINERARIO</a>
+        <a href="#rsvp">CONFIRMAR ASISTENCIA</a>
+        <a href="#regalos">MESA DE REGALOS</a>
+        <a href="#galeria">GALERÍA</a>
+        <a href="#hospedaje" id="mobileHospedaje">HOSPEDAJE</a>
+        <a href="#agendar">AGENDAR</a>
+      </nav>
+    </aside>
+
+    <!-- HERO FOTO FULLSCREEN -->
+    <main id="inicio" class="hero" aria-label="Portada">
+      <div
+        class="hero__bg"
+        id="heroBg"
+        role="img"
+        aria-label="Foto de portada"
+      ></div>
+      <div class="hero__overlay" aria-hidden="true"></div>
+
+      <div class="hero__content">
+        <h1 class="hero__names" id="names"></h1>
+
+        <div class="hero__dateWrap">
+          <div class="hero__line" aria-hidden="true"></div>
+          <p class="hero__date" id="dateText">27 DE ABRIL DEL 2026</p>
+          <div class="hero__line" aria-hidden="true"></div>
+        </div>
+
+        <section class="countdown" aria-label="Cuenta regresiva">
+          <div class="cd"><b id="d">000</b><span>DÍA(S)</span></div>
+          <div class="cd"><b id="h">00</b><span>HORA(S)</span></div>
+          <div class="cd"><b id="m">00</b><span>MINUTO(S)</span></div>
+          <div class="cd"><b id="s">00</b><span>SEGUNDO(S)</span></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- PADRES -->
+    <section id="padres" class="section parents" hidden>
+      <div class="container">
+        <h2 class="parents__title" id="parentsTitle">
+          EN COMPAÑÍA DE NUESTROS PADRES
+        </h2>
+
+        <div class="parents__grid" id="parentsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ITINERARIO -->
+    <section id="itinerario" class="section section--soft">
+      <div class="container">
+        <h2 class="title">ITINERARIO</h2>
+        <div class="cards" id="itinerary"></div>
+      </div>
+    </section>
+
+    <!-- GALERIA -->
+    <section id="galeria" class="section">
+      <div class="container">
+        <h2 class="title">GALERÍA</h2>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
+
+    <!-- DRESS CODE -->
+
+        <!-- ====== CLIMA PRO (Open-Meteo) ====== -->
+<section class="wpro" id="weatherPro" aria-labelledby="wproTitle" hidden>
+  <!-- Iconos SVG -->
+  <svg class="wpro__sprite" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="wx-sun" viewBox="0 0 24 24">
+      <path d="M12 18a6 6 0 1 1 0-12a6 6 0 0 1 0 12Z" fill="currentColor"/>
+      <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="wx-cloud" viewBox="0 0 24 24">
+      <path d="M7 18h10a4 4 0 0 0 .7-7.94A6 6 0 0 0 6.2 8.6A4 4 0 0 0 7 18Z"
+            fill="currentColor"/>
+    </symbol>
+
+    <symbol id="wx-cloud-sun" viewBox="0 0 24 24">
+      <path d="M8 7a4 4 0 0 1 7.6-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16 3v1.5M19.5 6H18M14.5 6H13M18.4 4.6l-1 1"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M7 19h10a4 4 0 0 0 .7-7.94A6 6 0 0 0 6.2 9.6A4 4 0 0 0 7 19Z"
+            fill="currentColor"/>
+    </symbol>
+
+    <symbol id="wx-rain" viewBox="0 0 24 24">
+      <path d="M7 15h10a4 4 0 0 0 .7-7.94A6 6 0 0 0 6.2 5.6A4 4 0 0 0 7 15Z"
+            fill="currentColor"/>
+      <path d="M8 17l-1 2M12 17l-1 2M16 17l-1 2"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="wx-storm" viewBox="0 0 24 24">
+      <path d="M7 14h10a4 4 0 0 0 .7-7.94A6 6 0 0 0 6.2 4.6A4 4 0 0 0 7 14Z"
+            fill="currentColor"/>
+      <path d="M12 14l-2 4h3l-1 4l4-6h-3l2-2"
+            fill="currentColor"/>
+    </symbol>
+
+    <symbol id="wx-fog" viewBox="0 0 24 24">
+      <path d="M4 10h16M6 14h12M5 18h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="wx-wind" viewBox="0 0 24 24">
+      <path d="M3 8h10a3 3 0 1 0-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M3 12h14a3 3 0 1 1-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M3 16h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+    </symbol>
+
+    <symbol id="wx-drop" viewBox="0 0 24 24">
+      <path d="M12 2s6 7 6 12a6 6 0 1 1-12 0c0-5 6-12 6-12Z" fill="currentColor"/>
+    </symbol>
+
+    <symbol id="wx-refresh" viewBox="0 0 24 24">
+      <path d="M20 12a8 8 0 1 1-2.3-5.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M20 4v6h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <header class="wpro__head">
+    <div>
+      <h2 id="wproTitle" class="wpro__title">Clima del evento</h2>
+      <div class="wpro__meta">
+        <span id="wproCity">—</span>
+        <span class="wpro__dot">•</span>
+        <span id="wproDate">—</span>
+      </div>
+    </div>
+
+    <div class="wpro__actions">
+      <button class="wpro__btn" id="wproRefresh" type="button">
+        <svg class="wpro__btnIc"><use href="#wx-refresh"></use></svg>
+        Actualizar
+      </button>
+
+      <label class="wpro__switch" title="Tema">
+        <input id="wproTheme" type="checkbox" aria-label="Cambiar tema claro/oscuro">
+        <span class="wpro__track"><span class="wpro__thumb"></span></span>
+      </label>
+    </div>
+  </header>
+
+  <div class="wpro__grid">
+    <article class="wproCard wproCard--main">
+      <div class="wproMain">
+        <div class="wproMain__left">
+          <div class="wproBadge" id="wproBadge">Pronóstico</div>
+          <div class="wproTemp"><span id="wproTemp">—</span><span class="wproTemp__deg">°C</span></div>
+          <div class="wproDesc" id="wproDesc">—</div>
+          <div class="wproHint" id="wproHint">—</div>
+        </div>
+
+        <div class="wproMain__right">
+          <div class="wproIcon" id="wproIcon"><svg><use href="#wx-cloud"/></svg></div>
+
+          <div class="wproPills">
+            <div class="wproPill">
+              <svg class="wproPill__ic"><use href="#wx-drop"/></svg>
+              <div>
+                <div class="wproPill__k">Lluvia</div>
+                <div class="wproPill__v"><span id="wproRainProb">—</span>%</div>
+              </div>
+            </div>
+
+            <div class="wproPill">
+              <svg class="wproPill__ic"><use href="#wx-wind"/></svg>
+              <div>
+                <div class="wproPill__k">Viento</div>
+                <div class="wproPill__v"><span id="wproWind">—</span> km/h</div>
+              </div>
+            </div>
+
+            <div class="wproPill">
+              <svg class="wproPill__ic"><use href="#wx-refresh"/></svg>
+              <div>
+                <div class="wproPill__k">Hora</div>
+                <div class="wproPill__v" id="wproCeremony">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wproTimeline">
+        <div class="wproTimeline__title">Por horas</div>
+        <div class="wproTimeline__scroller" id="wproHours"></div>
+      </div>
+    </article>
+
+    <article class="wproCard" id="wproDaysCard">
+      <div class="wproCard__title">Próximos días</div>
+      <div class="wproDays" id="wproDays"></div>
+      <div class="wproFoot">Fuente: Open-Meteo · Actualiza automáticamente.</div>
+    </article>
+  </div>
+
+  <details class="wproAcc" id="wproAcc">
+  <summary class="wproAcc__sum">Ver semana del evento</summary>
+  <div class="wproAcc__panel">
+    <div class="wproDays" id="wproDaysMobile"></div>
+  </div>
+</details>
+</section>
+
+
+
+    <!-- REGALOS -->
+    <section id="regalos" class="section section--soft">
+      <div class="container">
+        <h2 class="title">MESA DE REGALOS</h2>
+        <p class="lead" id="giftsIntro"></p>
+
+        <div class="giftGrid giftGrid--tall">
+          <!-- Liverpool -->
+          <a
+            class="giftCard giftCard--tall"
+            id="gift1"
+            href="#"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div class="giftTop">
+              <img class="giftLogo" src="assets/gift-1.svg" alt="Mesa 1" />
+            </div>
+
+            <span class="giftBtn">IR A MESA</span>
+            <div class="giftDivider" aria-hidden="true"></div>
+          </a>
+
+          <!-- Amazon -->
+          <a
+            class="giftCard giftCard--tall"
+            id="gift2"
+            href="#"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div class="giftTop">
+              <img class="giftLogo" src="assets/gift-2.svg" alt="Mesa 2" />
+            </div>
+
+            <span class="giftBtn">IR A MESA</span>
+            <div class="giftDivider" aria-hidden="true"></div>
+          </a>
+
+          <!-- Banco -->
+          <div class="giftCard giftCard--tall giftCard--bank">
+            <div class="giftTop">
+              <div class="giftBankIcon" aria-hidden="true">💳</div>
+              <h3 class="giftBankTitle">CUENTA<br />BANCARIA</h3>
+            </div>
+
+            <div class="giftDivider" aria-hidden="true"></div>
+
+            <div class="giftBankInfo">
+              <p class="giftBankLine" id="bankLine1">
+                BBVA · Titular: Tu Nombre
+              </p>
+              <p class="giftBankLine" id="bankLine2">CLABE/Tarjeta · Cuenta</p>
+              <p class="giftThanks">¡Gracias!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dresscode" class="section">
+      <div class="container">
+        <div
+          class="attireCard attireCard--sides"
+          aria-label="Código de vestimenta"
+        >
+          <!-- Izquierda -->
+          <div class="attireSide attireSide--left">
+            <img
+              id="attireDressImg"
+              class="attireSide__img"
+              alt="Vestido"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Centro -->
+          <div class="attireCenter">
+            <div class="attireCenter__title">
+              <span class="attireCenter__titleA" id="attireTitleA">BODA</span>
+              <span class="attireCenter__titleB" id="attireTitleB"
+                >atuendo</span
+              >
+            </div>
+
+            <div class="attireCenter__sub" id="attireDressCodeLine">
+              CÓDIGO DE VESTIMENTA: FORMAL
+            </div>
+
+            <div class="attireCenter__rule" aria-hidden="true"></div>
+
+            <div class="attireCenter__text" id="attireIntro">
+              ANIMAMOS A NUESTROS INVITADOS A USAR ESTOS COLORES PARA NUESTRO
+              DÍA ESPECIAL
+            </div>
+
+            <div
+              class="attireCenter__swatches"
+              id="attireSwatches"
+              aria-label="Paleta de colores"
+            ></div>
+            <div class="attireSide__thanks" id="attireThanks">¡Gracias!</div>
+          </div>
+
+          <!-- Derecha -->
+          <div class="attireSide attireSide--right">
+            <img
+              id="attireSuitImg"
+              class="attireSide__img"
+              alt="Traje"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOSPEDAJE (opcional) -->
+    <section id="hospedaje" class="section">
+      <div class="container">
+        <h2 class="title">HOSPEDAJE</h2>
+        <p class="lead" id="lodgingIntro">
+          Sugerencias de hospedaje para nuestros invitados.
+        </p>
+        <div class="lodging" id="lodging"></div>
+      </div>
+    </section>
+
+    <section id="agendar" class="section section--soft">
+      <div class="container">
+        <h2 class="title">AGENDAR EVENTO</h2>
+        <p class="lead">Añádelo a tu calendario con un clic.</p>
+
+        <div class="calCard" aria-label="Agendar evento">
+          <div class="calCard__meta">
+            <div class="calCard__title" id="calTitle">Evento</div>
+            <div class="calCard__sub" id="calSub">Fecha · Hora · Ubicación</div>
+          </div>
+
+          <details class="calMenu" id="calMenu">
+            <summary class="calBtn">AGENDAR EVENTO</summary>
+
+            <div
+              class="calMenu__panel"
+              role="menu"
+              aria-label="Opciones para agendar"
+            >
+              <a
+                class="calOption"
+                id="calGoogle"
+                target="_blank"
+                rel="noreferrer"
+                >Google Calendar</a
+              >
+              <a class="calOption" id="calICS" download
+                >iPhone / Apple Calendar</a
+              >
+              <a
+                class="calOption"
+                id="calOutlook"
+                target="_blank"
+                rel="noreferrer"
+                >Outlook</a
+              >
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONFIRMAR -->
+    <section id="rsvp" class="section section--soft">
+      <div class="container">
+        <h2 class="title">CONFIRMAR ASISTENCIA</h2>
+        <p class="lead">
+          Nos ayudas confirmando tu asistencia lo antes posible, gracias.
+        </p>
+
+        <form class="form" id="rsvpForm">
+          <div class="formGrid">
+            <label>
+              <span>Nombre</span>
+              <input name="nombre" required placeholder="Escribe tu nombre" />
+            </label>
+
+            <label>
+              <span>Teléfono (opcional)</span>
+              <input name="telefono" inputmode="tel" placeholder="10 dígitos" />
+            </label>
+
+            <label>
+              <span>¿Asistirás?</span>
+              <select name="asistire" required>
+                <option value="">Selecciona una opción</option>
+                <option value="Si">Sí</option>
+                <option value="No">No</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Número de personas (según tu pase)</span>
+              <select name="personas" required>
+                <option value="">Selecciona una opción</option>
+                <option value="1">Solo yo</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </label>
+          </div>
+
+          <label>
+            <span>Mensaje (opcional)</span>
+            <textarea
+              name="mensaje"
+              placeholder="Alergias, nota especial, etc."
+            ></textarea>
+          </label>
+
+          <button class="btn" type="submit">CONFIRMAR</button>
+          <p class="formMsg" id="formMsg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footerSig" id="footer vsection--soft">
+      <div class="container footerSig__inner">
+        <div class="footerSig__names" id="footerNames">| NOMBRE & NOMBRE |</div>
+
+        <a
+          class="footerSig__brand"
+          id="footerBrand"
+          href="#"
+          target="_blank"
+          rel="noreferrer"
+        >
+          INVITECORP.MX
+        </a>
+
+        <!-- opcional: contacto chiquito abajo -->
+        <a
+          class="footerSig__contact"
+          id="contactLink"
+          href="#"
+          target="_blank"
+          rel="noreferrer"
+        >
+          CONTACTO
+        </a>
+
+        <small class="footerSig__copy">© <span id="year"></span></small>
+      </div>
+    </footer>
+    <!-- LIGHTBOX (Galería) -->
+    <div class="lightbox" id="lightbox" hidden aria-hidden="true">
+      <button class="lb__close" id="lbClose" aria-label="Cerrar">×</button>
+
+      <button class="lb__nav lb__prev" id="lbPrev" aria-label="Anterior">
+        ‹
+      </button>
+
+      <figure class="lb__figure">
+        <img id="lbImg" alt="Foto ampliada" />
+        <figcaption class="lb__caption">
+          <span id="lbCount">1 / 1</span>
+        </figcaption>
+      </figure>
+
+      <button class="lb__nav lb__next" id="lbNext" aria-label="Siguiente">
+        ›
+      </button>
+    </div>
+
+    <!-- ===== AUDIO GLOBAL (se activa desde el splash) ===== -->
+    <audio id="bgAudio" preload="auto" playsinline>
+      <source
+        id="bgAudioSrc"
+        src="assets/audio/rest-of-my-life.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <!-- ===== PREMIUM MUSIC BAR ===== -->
+    <div
+      id="musicBar"
+      class="musicBar"
+      aria-label="Reproductor de música"
+      hidden
+    >
+      <!-- Header mini (siempre visible) -->
+      <button
+        id="musicToggle"
+        class="musicBar__head"
+        type="button"
+        aria-expanded="false"
+      >
+        <span class="musicBar__chip" aria-hidden="true">♪</span>
+
+        <span class="musicBar__meta">
+          <span class="musicBar__title" id="trackTitle"></span>
+        </span>
+
+        <span class="musicBar__actions">
+          <span class="musicBar__time" id="curTime">0:00</span>
+
+          <span
+            class="musicBar__play"
+            id="playBtn"
+            role="button"
+            aria-label="Play/Pausa"
+          >
+            <svg
+              id="playIcon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path d="M8 5v14l11-7L8 5z" fill="currentColor" />
+            </svg>
+            <svg
+              id="pauseIcon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              style="display: none"
+            >
+              <path d="M6 5h4v14H6V5zm8 0h4v14h-4V5z" fill="currentColor" />
+            </svg>
+          </span>
+        </span>
+      </button>
+
+      <!-- Panel expandible -->
+      <div class="musicBar__panel" id="musicPanel" aria-hidden="true">
+        <div class="musicBar__row">
+          <input
+            id="seek"
+            class="musicBar__seek"
+            type="range"
+            min="0"
+            max="5000"
+            value="0"
+            step="1"
+            aria-label="Progreso"
+          />
+          <span class="musicBar__time" id="durTime">0:00</span>
+        </div>
+
+        <div class="musicBar__row musicBar__row--bottom">
+          <button
+            id="muteBtn"
+            class="musicBar__btn"
+            type="button"
+            aria-label="Silencio"
+          >
+            <span id="volIcon">🔊</span>
+            <span id="muteIcon" style="display: none">🔇</span>
+          </button>
+
+          <input
+            id="vol"
+            class="musicBar__vol"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.8"
+            aria-label="Volumen"
+          />
+
+          <button
+            id="closeBtn"
+            class="musicBar__btn musicBar__btn--close"
+            type="button"
+            aria-label="Ocultar"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+    <script src="weather-pro.js"></script>
+  </body>
+</html>
