@@ -10,24 +10,28 @@ if (!BUCKET) {
   process.exit(1);
 }
 
-const IGNORE_BASENAMES = new Set([".wranglerignore", ".DS_Store", "Thumbs.db"]);
+const IGNORE_DIRS = new Set(["node_modules", ".git", ".wrangler"]);
+const IGNORE_FILES = new Set([".wranglerignore", ".DS_Store"]);
 
 function walk(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
+
   for (const e of entries) {
     const full = path.join(dir, e.name);
 
+    // Ignorar carpetas pesadas / internas
     if (e.isDirectory()) {
+      if (IGNORE_DIRS.has(e.name) || e.name.startsWith(".")) continue;
       walk(full);
       continue;
     }
 
-    const base = path.basename(full);
-    if (base.startsWith(".") || IGNORE_BASENAMES.has(base)) continue; // 👈 clave
+    // Ignorar archivos ocultos y algunos problemáticos
+    if (e.name.startsWith(".") || IGNORE_FILES.has(e.name)) continue;
 
-    const key = full.split(path.sep).join("/"); // sites/...
-    console.log("⬆️  Subiendo:", key);
+    const key = full.split(path.sep).join("/"); // sites/xxx/index.html
 
+    console.log("⬆️ Subiendo:", key);
     execSync(
       `wrangler r2 object put ${BUCKET}/${key} --file ${JSON.stringify(full)} --remote`,
       { stdio: "inherit" }
