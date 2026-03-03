@@ -1,12 +1,12 @@
 name: Deploy sites to R2
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: [main]
     paths:
       - "sites/**"
-
+      - ".github/**"
+  workflow_dispatch:
 jobs:
   upload:
     runs-on: ubuntu-latest
