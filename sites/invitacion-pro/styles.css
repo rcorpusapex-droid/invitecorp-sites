@@ -1957,7 +1957,7 @@ body.lb-open {
 
 
 /* Hero placeholder para evitar flash blanco */
-.hero { background: #f6f4ef65; }
+.hero { background: #ffffff00; }
 
 /* El contenedor del bg */
 #heroBg{
@@ -1981,7 +1981,7 @@ body.lb-open {
   transition:
     opacity .65s ease,
     filter .95s ease,
-    transform 1.3s ease;
+    transform .98s ease;
   will-change: opacity, filter, transform;
 }
 
