@@ -20,7 +20,9 @@
   }
 
   function isImagePath(val) {
-    return typeof val === "string" && /\.(png|svg|webp|jpg|jpeg)$/i.test(val.trim());
+    return (
+      typeof val === "string" && /\.(png|svg|webp|jpg|jpeg)$/i.test(val.trim())
+    );
   }
 
   // Fade-in para <img class="imgFade">
@@ -30,6 +32,53 @@
       if (img.complete) done();
       else img.addEventListener("load", done, { once: true });
     });
+  }
+
+  // Carga imágenes SOLO cuando estén cerca del viewport (reduce pico al inicio)
+  function lazySrc(img, src, rootMargin = "800px") {
+    if (!img || !src) return;
+
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.fetchPriority = "low";
+
+    const apply = () => {
+      img.src = src;
+
+      // Mantiene tu fade-in
+      img.classList.add("imgFade");
+      const done = () => img.classList.add("is-loaded");
+      if (img.complete) done();
+      else img.addEventListener("load", done, { once: true });
+    };
+
+    // Si ya está visible, ponla ya
+    const rect = img.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight + 50 && rect.bottom > -50;
+
+    if (inView) {
+      apply();
+      return;
+    }
+
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              io.disconnect();
+              apply();
+            }
+          });
+        },
+        { root: null, threshold: 0.01, rootMargin },
+      );
+
+      io.observe(img);
+    } else {
+      // fallback: lo ponemos en cuanto pueda
+      setTimeout(apply, 0);
+    }
   }
 
   /* =========================
@@ -50,7 +99,9 @@
     ];
 
     const set = new Set();
-    selectors.forEach((sel) => document.querySelectorAll(sel).forEach((el) => set.add(el)));
+    selectors.forEach((sel) =>
+      document.querySelectorAll(sel).forEach((el) => set.add(el)),
+    );
     if (set.size === 0) return;
 
     // Accesibilidad
@@ -130,7 +181,9 @@
     backdrop?.addEventListener("click", closeMenu);
     mobileClose?.addEventListener("click", closeMenu);
 
-    mobile.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
+    mobile
+      .querySelectorAll("a")
+      .forEach((a) => a.addEventListener("click", closeMenu));
 
     document.addEventListener("keydown", (e) => {
       const isOpen = burger.getAttribute("aria-expanded") === "true";
@@ -139,25 +192,50 @@
   }
 
   /* =========================
-     Hero background (preload + fade)
-  ========================== */
-  const heroBg = document.getElementById("heroBg");
-  if (heroBg && cfg.portada) {
-    const url = cfg.portada;
+   Hero (IMG real, sin doble decode)
+========================== */
+  /* =========================
+   Hero (IMG real + decode)
+========================== */
+const hero = document.getElementById("inicio");
+const heroBg = document.getElementById("heroBg");
 
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "image";
-    link.href = url;
-    document.head.appendChild(link);
+if (heroBg && cfg.portada) {
+  const url = new URL(cfg.portada, window.location.href).href;
 
-    const img = new Image();
-    img.src = url;
-    img.onload = () => {
-      heroBg.style.backgroundImage = `url('${url}')`;
-      heroBg.classList.add("is-loaded");
-    };
-  }
+  // preload (solo fetch)
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = "image";
+  link.href = url;
+  document.head.appendChild(link);
+
+  heroBg.innerHTML = "";
+  const im = document.createElement("img");
+  im.className = "heroBgImg";
+  im.alt = ""; // decorativa
+  im.decoding = "async";
+  im.fetchPriority = "high";
+  im.loading = "eager";
+  im.src = url;
+
+  const show = () => {
+    im.classList.add("is-loaded");
+    hero?.classList.add("is-ready"); // baja overlay suave
+  };
+
+  // Espera decode si existe (más limpio)
+  im.addEventListener("load", async () => {
+    try { await im.decode(); } catch {}
+    show();
+  }, { once: true });
+
+  im.addEventListener("error", () => {
+    console.warn("❌ No cargó portada:", url);
+  }, { once: true });
+
+  heroBg.appendChild(im);
+}
 
   /* =========================
      Names + Date
@@ -177,7 +255,9 @@
 
   if (padresSection && parentsGrid && cfg.padres) {
     padresSection.hidden = false;
-    if (parentsTitle) parentsTitle.textContent = cfg.padres.titulo || "EN COMPAÑÍA DE NUESTROS PADRES";
+    if (parentsTitle)
+      parentsTitle.textContent =
+        cfg.padres.titulo || "EN COMPAÑÍA DE NUESTROS PADRES";
 
     const col = (title, namesArr = []) => `
       <div class="parents__col">
@@ -225,7 +305,8 @@
 
     cfg.itinerario.forEach((item) => {
       const iconIsImg =
-        typeof item.icon === "string" && /\.(png|svg|webp|jpg|jpeg)$/i.test(item.icon.trim());
+        typeof item.icon === "string" &&
+        /\.(png|svg|webp|jpg|jpeg)$/i.test(item.icon.trim());
 
       const iconHTML = iconIsImg
         ? `<img src="${item.icon}" alt="" loading="lazy" />`
@@ -310,7 +391,10 @@
         },
 
         pagination: { el: ".swiper-pagination", clickable: true },
-        navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
         keyboard: { enabled: true },
         a11y: true,
       });
@@ -437,13 +521,17 @@
   if (gift1 && cfg.regalo1) {
     gift1.href = cfg.regalo1.link || "#";
     const img = gift1.querySelector("img");
-    if (img && cfg.regalo1.img) img.src = cfg.regalo1.img;
+    if (img && cfg.regalo1.img) {
+      lazySrc(img, cfg.regalo1.img, "1200px"); // carga cuando esté cerca
+    }
   }
 
   if (gift2 && cfg.regalo2) {
     gift2.href = cfg.regalo2.link || "#";
     const img = gift2.querySelector("img");
-    if (img && cfg.regalo2.img) img.src = cfg.regalo2.img;
+    if (img && cfg.regalo2.img) {
+      lazySrc(img, cfg.regalo2.img, "1200px");
+    }
   }
 
   const bank1 = document.getElementById("bankLine1");
@@ -465,14 +553,17 @@
     if (navHosp) navHosp.style.display = "none";
     if (mobHosp) mobHosp.style.display = "none";
   } else {
-    if (lodgingIntro) lodgingIntro.textContent = cfg.hospedajeIntro || lodgingIntro.textContent;
+    if (lodgingIntro)
+      lodgingIntro.textContent = cfg.hospedajeIntro || lodgingIntro.textContent;
 
     if (lodgingWrap) {
       lodgingWrap.innerHTML = "";
 
       cfg.hospedaje.forEach((h) => {
         const fotoOk = isImagePath(h.foto);
-        const tag = h.tag ? `<span class="lodge__tag">${escapeHtml(h.tag)}</span>` : "";
+        const tag = h.tag
+          ? `<span class="lodge__tag">${escapeHtml(h.tag)}</span>`
+          : "";
 
         const reservaBtn = h.reserva
           ? `<a class="lodge__btn lodge__btn--ghost" target="_blank" rel="noreferrer" href="${h.reserva}">RESERVAR</a>`
@@ -580,7 +671,11 @@
       msg.textContent = "Enviando…";
 
       try {
-        const res = await fetch(endpoint, { method: "POST", body, redirect: "follow" });
+        const res = await fetch(endpoint, {
+          method: "POST",
+          body,
+          redirect: "follow",
+        });
         const out = await res.json();
         if (out.ok) {
           msg.textContent = "✅ ¡Confirmación guardada!";
@@ -620,15 +715,13 @@
     if (thanks) thanks.textContent = cfg.thanks || "¡Gracias!";
 
     if (dressImg && isImagePath(cfg.vestidoImg)) {
-      dressImg.classList.add("imgFade");
-      dressImg.src = cfg.vestidoImg;
+      lazySrc(dressImg, cfg.vestidoImg, "1200px");
     } else if (dressImg) {
       dressImg.hidden = true;
     }
 
     if (suitImg && isImagePath(cfg.trajeImg)) {
-      suitImg.classList.add("imgFade");
-      suitImg.src = cfg.trajeImg;
+      lazySrc(suitImg, cfg.trajeImg, "1200px");
     } else if (suitImg) {
       suitImg.hidden = true;
     }
@@ -637,8 +730,12 @@
     const paletteObj = cfg && cfg[key] ? cfg[key] : null;
 
     const colors =
-      (paletteObj && Array.isArray(paletteObj.colors) ? paletteObj.colors : null) ||
-      (cfg.sage_blush && Array.isArray(cfg.sage_blush.colors) ? cfg.sage_blush.colors : []) ||
+      (paletteObj && Array.isArray(paletteObj.colors)
+        ? paletteObj.colors
+        : null) ||
+      (cfg.sage_blush && Array.isArray(cfg.sage_blush.colors)
+        ? cfg.sage_blush.colors
+        : []) ||
       [];
 
     swWrap.innerHTML = "";
@@ -657,7 +754,10 @@
      Agendar evento (Google / iOS / Outlook)
   ========================== */
   function toGoogleDateUTC(d) {
-    return d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+    return d
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}Z$/, "Z");
   }
 
   function icsEscape(s) {
@@ -680,7 +780,8 @@
     if (!aGoogle || !aICS || !aOutlook) return;
 
     const ev = cfg.evento || {};
-    const title = ev.titulo || (cfg.footerNombres ? `Boda ${cfg.footerNombres}` : "Evento");
+    const title =
+      ev.titulo || (cfg.footerNombres ? `Boda ${cfg.footerNombres}` : "Evento");
 
     const location = ev.ubicacion || "";
     const details = ev.descripcion || "";
@@ -690,7 +791,9 @@
     if (!startISO) return;
 
     const start = new Date(startISO);
-    const end = ev.endISO ? new Date(ev.endISO) : new Date(start.getTime() + 6 * 60 * 60 * 1000);
+    const end = ev.endISO
+      ? new Date(ev.endISO)
+      : new Date(start.getTime() + 6 * 60 * 60 * 1000);
 
     if (elTitle) elTitle.textContent = title;
 
@@ -704,7 +807,9 @@
       const where = location ? ` · ${location}` : "";
       if (elSub) elSub.textContent = `${when}${where}`.toUpperCase();
     } catch {
-      if (elSub) elSub.textContent = `${cfg.fechaTexto || ""}${location ? " · " + location : ""}`.trim();
+      if (elSub)
+        elSub.textContent =
+          `${cfg.fechaTexto || ""}${location ? " · " + location : ""}`.trim();
     }
 
     const startG = toGoogleDateUTC(start);
@@ -732,8 +837,7 @@
     const dtStamp = toGoogleDateUTC(new Date());
     const uid = `${Date.now()}-${Math.random().toString(16).slice(2)}@invite`;
 
-    const ics =
-`BEGIN:VCALENDAR\r
+    const ics = `BEGIN:VCALENDAR\r
 VERSION:2.0\r
 PRODID:-//INVITACION//ES\r
 CALSCALE:GREGORIAN\r

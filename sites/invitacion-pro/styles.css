@@ -160,22 +160,7 @@ body.menu-open {
   overflow: hidden;
 }
 
-/* HERO */
-.hero {
-  position: relative;
-  min-height: calc(100dvh - 60px);
-  display: grid;
-  place-items: stretch;
-  overflow: hidden;
-}
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transform: scale(1.02);
-}
+
 .hero__overlay {
   position: absolute;
   inset: 0;
@@ -1894,15 +1879,9 @@ body.lb-open {
 }
 .imgFade.is-loaded{ opacity: 1; }
 
-/* ===== Hero: evitar flash gris mientras carga ===== */
-.hero{
-  background: #F6F4EF; /* evita el “gris feo” mientras carga */
-}
-.hero__bg{
-  opacity: 0;
-  transition: opacity .35s ease;
-}
-.hero__bg.is-loaded{
+
+
+.is-loaded{
   opacity: 1;
 }
 
@@ -1971,4 +1950,67 @@ body.lb-open {
     filter: none !important;
     transition: none !important;
   }
+}
+
+
+
+
+
+/* Hero placeholder para evitar flash blanco */
+.hero { background: #f6f4ef65; }
+
+/* El contenedor del bg */
+#heroBg{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  background:#f6f4ef44; /* placeholder limpio */
+}
+
+/* Imagen real con reveal suave (blur -> clear) */
+#heroBg .heroBgImg{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+
+  opacity: 0;
+  filter: blur(18px) saturate(.92);
+  transform: scale(1.06) translateZ(0);
+
+  transition:
+    opacity .65s ease,
+    filter .95s ease,
+    transform 1.3s ease;
+  will-change: opacity, filter, transform;
+}
+
+#heroBg .heroBgImg.is-loaded{
+  opacity: 1;
+  filter: blur(0) saturate(1);
+  transform: scale(1.02) translateZ(0);
+}
+
+/* Overlay: empieza más oscuro y baja cuando ya cargó */
+.hero__overlay{
+  background: rgba(0,0,0,.45);
+  transition: background .85s ease;
+}
+.hero.is-ready .hero__overlay{
+  background: rgba(0,0,0,.28);
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  #heroBg .heroBgImg{
+    transition:none;
+    filter:none;
+    transform:none;
+    opacity:1;
+  }
+  .hero__overlay{ transition:none; }
+}
+
+@media (max-width:900px){
+  .topbar{ backdrop-filter:none; -webkit-backdrop-filter:none; }
 }
