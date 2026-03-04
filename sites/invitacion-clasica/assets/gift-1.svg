@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
-  <rect width="800" height="500" rx="24" fill="#f7f6f3"/>
-  <rect x="40" y="40" width="720" height="420" rx="20" fill="#ffffff" stroke="rgba(0,0,0,.12)"/>
-  <text x="400" y="255" font-family="Montserrat, Arial" font-size="28" fill="#222" text-anchor="middle">MESA 1 (logo aquí)</text>
-</svg>

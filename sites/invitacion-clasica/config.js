@@ -1,10 +1,10 @@
 // Edita SOLO este archivo para personalizar.
 window.INVITACION = {
-  portada: "assets/slide-10.jpeg",
+  portada: "assets/fotos/slide-6.webp",
 
   rsvpEndpoint: "https://script.google.com/macros/s/AKfycbwBb9wip4Ghr5vA2T_H9QfbRD9QXUFeTA-l-8jS5W-bZ21ZV2ycLWj-sPZbNu2TDmH7/exec",
 
-  nombresHTML: `Elisama<br/><span class="amp">&amp;</span><br/>Miguel`,
+  nombresHTML: `Fernanda<br/><span class="amp">&amp;</span><br/>Victor`,
   fechaTexto: "27 DE ABRIL DEL 2026",
   fechaISO: "2026-04-24T17:00:00-06:00",
 
@@ -44,12 +44,12 @@ window.INVITACION = {
 
   // Galería
   galeria: [
-    "assets/fotos/slide-1.jpeg",
-    "assets/fotos/slide-10.jpeg",
-    "assets/fotos/slide-2.jpeg",
-    "assets/fotos/slide-3.jpeg",
-    "assets/fotos/slide-4.jpeg",
-    "assets/fotos/slide-5.jpeg",
+    "assets/fotos/slide-1.webp",
+    "assets/fotos/slide-2.webp",
+    "assets/fotos/slide-3.webp",
+    "assets/fotos/slide-4.webp",
+    "assets/fotos/slide-5.webp",
+    "assets/fotos/slide-7.webp",,
   ],
 
   // Regalos
@@ -64,7 +64,7 @@ window.INVITACION = {
     link: "https://www.amazon.com.mx/",
   },
   banco: {
-    linea1: "BBVA · Titular: Miguel Torres",
+    linea1: "BBVA · Titular: Victor Torres",
     linea2: "CLABE/Tarjeta · XXXX XXXX XXXX XXXX",
   },
 
@@ -104,7 +104,7 @@ window.INVITACION = {
   thanks: "Gracias!",
 
   // Footer
-  footerNombres: "Elisama & Miguel",
+  footerNombres: "Fernanda & Victor",
   contactoLink: "https://wa.me/523131022416",
   footerMarca: "INVITECORP.MX",
   footerMarcaLink: "https://invitecorp.rcorpusapex.workers.dev/",
