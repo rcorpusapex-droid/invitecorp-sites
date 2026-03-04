@@ -44,9 +44,7 @@ window.INVITACION = {
 
   // Galería
   galeria: [
-    "assets/fotos/slide-1.webp",
     "assets/fotos/slide-2.webp",
-    "assets/fotos/slide-3.webp",
     "assets/fotos/slide-4.webp",
     "assets/fotos/slide-5.webp",
     "assets/fotos/slide-7.webp",,

@@ -193,7 +193,7 @@ body.menu-open {
   font-weight: 400;
   font-size: clamp(44px, 6vw, 78px);
   line-height: 1.02;
-  margin: 0 0 287px;
+  margin: 0 0 499px;
 }
 .amp {
   font-family: "Playfair Display", serif;
@@ -634,7 +634,7 @@ textarea {
 /* GALERÍA */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 .photo {
