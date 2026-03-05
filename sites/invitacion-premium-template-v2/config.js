@@ -7,7 +7,7 @@ window.INVITACION = {
 
   nombresHTML: `Elisama<br/><span class="amp">&amp;</span><br/>Miguel`,
   fechaTexto: "27 DE ABRIL DEL 2026",
-  fechaISO: "2026-03-06T17:00:00-06:00",
+  fechaISO: "2026-03-20T17:00:00-06:00",
 
   // PADRES
   padres: {
