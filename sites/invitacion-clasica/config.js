@@ -5,8 +5,8 @@ window.INVITACION = {
   rsvpEndpoint: "https://script.google.com/macros/s/AKfycbwBb9wip4Ghr5vA2T_H9QfbRD9QXUFeTA-l-8jS5W-bZ21ZV2ycLWj-sPZbNu2TDmH7/exec",
 
   nombresHTML: `Fernanda<br/><span class="amp">&amp;</span><br/>Victor`,
-  fechaTexto: "27 DE ABRIL DEL 2026",
-  fechaISO: "2026-04-24T17:00:00-06:00",
+  fechaTexto: "05 DE JUNIO DEL 2027",
+  fechaISO: "2027-07-05T17:00:00-06:00",
 
   // PADRES
   padres: {
