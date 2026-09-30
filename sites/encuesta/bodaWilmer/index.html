@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Cuéntanos tu Boda</title>
+<meta name="description" content="Formulario para mandarnos la información de tu invitación de boda." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light dark;
+    --ink: #22261f;
+    --paper: #f6f5f0;
+    --surface: #ffffff;
+    --muted: #767d6c;
+    --line: #ddded2;
+    --accent: #5d6b57;
+    --accent-ink: #ffffff;
+    --accent-soft: #e9ece4;
+    --danger: #a34a3d;
+    --shadow: 0 1px 2px rgba(34, 38, 31, 0.06), 0 8px 24px rgba(34, 38, 31, 0.06);
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #ece9e2;
+      --paper: #191a16;
+      --surface: #222319;
+      --muted: #9a9a8c;
+      --line: #34352a;
+      --accent: #93a389;
+      --accent-ink: #14170f;
+      --accent-soft: #2a2f23;
+      --danger: #e2988a;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #ece9e2;
+    --paper: #191a16;
+    --surface: #222319;
+    --muted: #9a9a8c;
+    --line: #34352a;
+    --accent: #93a389;
+    --accent-ink: #14170f;
+    --accent-soft: #2a2f23;
+    --danger: #e2988a;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Work Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    padding-inline: 20px;
+    padding-block: 28px 140px;
+  }
+
+  .wrap { max-width: 640px; margin: 0 auto; }
+
+  h1, h2, h3, .display {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  /* ===== Header ===== */
+  .masthead { text-align: center; margin-bottom: 40px; }
+  .masthead__mark {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 13px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .masthead h1 {
+    font-size: clamp(30px, 6vw, 42px);
+    line-height: 1.08;
+    margin: 0 0 12px;
+  }
+  .masthead p {
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+    max-width: 46ch;
+    margin: 0 auto;
+  }
+
+  /* ===== Sections ===== */
+  .section {
+    padding-block: 30px;
+    border-top: 1px solid var(--line);
+  }
+  .section:first-of-type { border-top: none; }
+
+  .section__eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .section h2 {
+    font-size: 22px;
+    margin: 0 0 4px;
+  }
+  .section__hint {
+    color: var(--muted);
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin: 0 0 22px;
+    max-width: 52ch;
+  }
+
+  /* ===== Fields ===== */
+  .grid { display: grid; gap: 16px; }
+  .grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 560px) {
+    .grid.cols-2 { grid-template-columns: 1fr; }
+  }
+
+  label.field { display: flex; flex-direction: column; gap: 7px; }
+  .field__label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .field__label .opt {
+    font-weight: 400;
+    color: var(--muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="time"],
+  input[type="tel"],
+  input[type="url"],
+  select,
+  textarea {
+    font: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 11px 13px;
+    width: 100%;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  textarea { resize: vertical; min-height: 64px; line-height: 1.5; }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.7; }
+
+  /* ===== Toggle rows (checkbox sections) ===== */
+  .toggleRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .toggleRow input { width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+  .toggleRow span { font-size: 14.5px; font-weight: 600; }
+  .toggleBody { display: flex; flex-direction: column; gap: 16px; }
+  .toggleBody[hidden] { display: none; }
+
+  /* ===== Repeater rows (itinerario / hospedaje) ===== */
+  .repeater { display: flex; flex-direction: column; gap: 12px; }
+  .repRow {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 14px 16px;
+    display: grid;
+    gap: 10px;
+    position: relative;
+  }
+  .repRow__remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .repRow__remove:hover { color: var(--danger); border-color: var(--danger); }
+
+  .addBtn {
+    align-self: flex-start;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px dashed var(--accent);
+    border-radius: 10px;
+    padding: 9px 16px;
+    cursor: pointer;
+  }
+  .addBtn:hover { filter: brightness(0.97); }
+
+  /* ===== Sticky action bar ===== */
+  .actionBar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    z-index: 20;
+  }
+  .actionBar__inner {
+    max-width: 640px;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+  }
+  .btn {
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: 11px;
+    padding: 13px 16px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn--primary { background: var(--accent); color: var(--accent-ink); }
+  .btn--primary:hover { filter: brightness(1.06); }
+  .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn--ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 92px;
+    transform: translateX(-50%) translateY(8px);
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 30;
+  }
+  .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="masthead__mark">INVITECORP · Ficha de boda</div>
+    <h1>Cuéntanos de su boda</h1>
+    <p>Con esto armamos su invitación premium. Contesten lo que ya tengan decidido — lo demás lo ajustamos después juntos.</p>
+  </header>
+
+  <form id="form">
+    <!-- LA PAREJA -->
+    <section class="section">
+      <div class="section__eyebrow">01 · La pareja</div>
+      <h2>Los novios</h2>
+      <div class="grid cols-2">
+        <label class="field">
+          <span class="field__label">Nombre de la novia</span>
+          <input type="text" id="novia" placeholder="Ej. Elisama">
+        </label>
+        <label class="field">
+          <span class="field__label">Nombre del novio</span>
+          <input type="text" id="novio" placeholder="Ej. Miguel">
+        </label>
+        <label class="field">
+          <span class="field__label">Fecha de la boda</span>
+          <input type="date" id="fecha">
+        </label>
+        <label class="field">
+          <span class="field__label">Hora de la ceremonia</span>
+          <input type="time" id="hora">
+        </label>
+      </div>
+      <div class="field" style="margin-top:16px;">
+        <span class="field__label">Lugar de la ceremonia</span>
+        <input type="text" id="lugarCeremonia" placeholder="Nombre de la iglesia o del lugar">
+      </div>
+    </section>
+
+    <!-- PADRES -->
+    <section class="section">
+      <div class="section__eyebrow">02 · Padres</div>
+      <label class="toggleRow">
+        <input type="checkbox" id="tienePadres" checked>
+        <span>Mostrar sección "en compañía de nuestros padres"</span>
+      </label>
+      <div class="toggleBody" id="padresBody">
+        <div class="grid cols-2">
+          <label class="field">
+            <span class="field__label">Padres de la novia</span>
+            <textarea id="padresNovia" placeholder="Un nombre por línea"></textarea>
+          </label>
+          <label class="field">
+            <span class="field__label">Padres del novio</span>
+            <textarea id="padresNovio" placeholder="Un nombre por línea"></textarea>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ITINERARIO -->
+    <section class="section">
+      <div class="section__eyebrow">03 · Itinerario</div>
+      <h2>¿Cómo va el día?</h2>
+      <p class="section__hint">Agreguen un momento por fila — ceremonia, recepción, coctel, cena... los que necesiten.</p>
+      <div class="repeater" id="itinerarioRepeater"></div>
+      <button type="button" class="addBtn" id="addItinerario" style="margin-top:12px;">+ Agregar momento</button>
+    </section>
+
+    <!-- FOTOS -->
+    <section class="section">
+      <div class="section__eyebrow">04 · Fotos</div>
+      <h2>Portada y galería</h2>
+      <p class="section__hint">Las fotos se mandan directo por WhatsApp junto con este formulario — no hace falta subirlas aquí.</p>
+      <label class="field">
+        <span class="field__label">¿Cuál quieren de portada? <span class="opt">(opcional)</span></span>
+        <input type="text" id="portadaDesc" placeholder="Ej. la foto de la playa del compromiso">
+      </label>
+    </section>
+
+    <!-- REGALOS -->
+    <section class="section">
+      <div class="section__eyebrow">05 · Mesa de regalos</div>
+      <label class="toggleRow">
+        <input type="checkbox" id="tieneRegalos">
+        <span>Incluir mesa de regalos</span>
+      </label>
+      <div class="toggleBody" id="regalosBody" hidden>
+        <div class="grid cols-2">
+          <label class="field">
+            <span class="field__label">Liverpool <span class="opt">(link o código de evento)</span></span>
+            <input type="text" id="liverpool" placeholder="https://... o código">
+          </label>
+          <label class="field">
+            <span class="field__label">Amazon <span class="opt">(link de la lista)</span></span>
+            <input type="text" id="amazon" placeholder="https://...">
+          </label>
+        </div>
+        <div class="grid cols-2">
+          <label class="field">
+            <span class="field__label">Banco y titular <span class="opt">(opcional)</span></span>
+            <input type="text" id="banco" placeholder="Ej. BBVA · Miguel Torres">
+          </label>
+          <label class="field">
+            <span class="field__label">CLABE / cuenta <span class="opt">(opcional)</span></span>
+            <input type="text" id="cuenta" placeholder="XXXX XXXX XXXX XXXX">
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOSPEDAJE -->
+    <section class="section">
+      <div class="section__eyebrow">06 · Hospedaje</div>
+      <label class="toggleRow">
+        <input type="checkbox" id="tieneHospedaje">
+        <span>Recomendar hoteles a los invitados</span>
+      </label>
+      <div class="toggleBody" id="hospedajeBody" hidden>
+        <div class="repeater" id="hospedajeRepeater"></div>
+        <button type="button" class="addBtn" id="addHospedaje">+ Agregar hotel</button>
+      </div>
+    </section>
+
+    <!-- VESTIMENTA -->
+    <section class="section">
+      <div class="section__eyebrow">07 · Código de vestimenta</div>
+      <div class="grid cols-2">
+        <label class="field">
+          <span class="field__label">Código de vestimenta</span>
+          <select id="dressCode">
+            <option value="">Selecciona...</option>
+            <option>Formal</option>
+            <option>Semi-formal</option>
+            <option>Black tie</option>
+            <option>Casual elegante</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field__label">Colores a resaltar</span>
+          <input type="text" id="colores" placeholder="Ej. verde salvia y rosa palo">
+        </label>
+      </div>
+      <label class="field" style="margin-top:16px;">
+        <span class="field__label">Mensaje para invitados sobre el atuendo <span class="opt">(opcional)</span></span>
+        <textarea id="mensajeAtuendo" placeholder="Si lo dejan en blanco usamos uno estándar"></textarea>
+      </label>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section">
+      <div class="section__eyebrow">08 · Detalles finales</div>
+      <div class="grid cols-2">
+        <label class="field">
+          <span class="field__label">WhatsApp de contacto para invitados</span>
+          <input type="tel" id="whatsappContacto" placeholder="10 dígitos">
+        </label>
+        <label class="field">
+          <span class="field__label">Ciudad del evento <span class="opt">(para el clima)</span></span>
+          <input type="text" id="ciudad" placeholder="Ej. Monterrey, NL">
+        </label>
+      </div>
+      <label class="field" style="margin-top:16px;">
+        <span class="field__label">Notas para nosotros <span class="opt">(cualquier otra cosa)</span></span>
+        <textarea id="notas" placeholder="Lo que quieran contarnos"></textarea>
+      </label>
+    </section>
+  </form>
+</div>
+
+<div class="actionBar">
+  <div class="actionBar__inner">
+    <button type="button" class="btn btn--ghost" id="btnCopy">Copiar respuestas</button>
+    <a href="#" class="btn btn--primary" id="btnWhats" target="_blank" rel="noopener noreferrer">Enviar por WhatsApp</a>
+  </div>
+</div>
+<div class="toast" id="toast">Copiado ✓</div>
+
+<script>
+(function () {
+  const STUDIO_WHATSAPP = "523131022416";
+
+  function itinerarioRow(vals) {
+    vals = vals || {};
+    const row = document.createElement("div");
+    row.className = "repRow";
+    row.innerHTML = `
+      <button type="button" class="repRow__remove" aria-label="Quitar">×</button>
+      <div class="grid cols-2">
+        <label class="field">
+          <span class="field__label">Momento</span>
+          <input type="text" class="it-titulo" placeholder="Ej. Ceremonia" value="${vals.titulo || ""}">
+        </label>
+        <label class="field">
+          <span class="field__label">Hora</span>
+          <input type="time" class="it-hora" value="${vals.hora || ""}">
+        </label>
+        <label class="field">
+          <span class="field__label">Lugar</span>
+          <input type="text" class="it-lugar" placeholder="Nombre del lugar" value="${vals.lugar || ""}">
+        </label>
+        <label class="field">
+          <span class="field__label">Link de Google Maps <span class="opt">(opcional)</span></span>
+          <input type="url" class="it-maps" placeholder="https://maps.google.com/..." value="${vals.maps || ""}">
+        </label>
+      </div>
+    `;
+    row.querySelector(".repRow__remove").addEventListener("click", () => row.remove());
+    return row;
+  }
+
+  function hospedajeRow(vals) {
+    vals = vals || {};
+    const row = document.createElement("div");
+    row.className = "repRow";
+    row.innerHTML = `
+      <button type="button" class="repRow__remove" aria-label="Quitar">×</button>
+      <div class="grid cols-2">
+        <label class="field">
+          <span class="field__label">Nombre del hotel</span>
+          <input type="text" class="ho-nombre" placeholder="Ej. Hotel Quinta Real" value="${vals.nombre || ""}">
+        </label>
+        <label class="field">
+          <span class="field__label">Zona / distancia</span>
+          <input type="text" class="ho-texto" placeholder="Ej. A 10 min del salón" value="${vals.texto || ""}">
+        </label>
+      </div>
+      <label class="field">
+        <span class="field__label">Link de reservación <span class="opt">(opcional)</span></span>
+        <input type="url" class="ho-link" placeholder="https://..." value="${vals.link || ""}">
+      </label>
+    `;
+    row.querySelector(".repRow__remove").addEventListener("click", () => row.remove());
+    return row;
+  }
+
+  const itWrap = document.getElementById("itinerarioRepeater");
+  const hoWrap = document.getElementById("hospedajeRepeater");
+
+  ["Ceremonia", "Recepción", "Fiesta"].forEach((t) => itWrap.appendChild(itinerarioRow({ titulo: t })));
+  hoWrap.appendChild(hospedajeRow());
+
+  document.getElementById("addItinerario").addEventListener("click", () => itWrap.appendChild(itinerarioRow()));
+  document.getElementById("addHospedaje").addEventListener("click", () => hoWrap.appendChild(hospedajeRow()));
+
+  function wireToggle(checkboxId, bodyId) {
+    const cb = document.getElementById(checkboxId);
+    const body = document.getElementById(bodyId);
+    const sync = () => { body.hidden = !cb.checked; };
+    cb.addEventListener("change", sync);
+    sync();
+  }
+  wireToggle("tienePadres", "padresBody");
+  wireToggle("tieneRegalos", "regalosBody");
+  wireToggle("tieneHospedaje", "hospedajeBody");
+
+  const val = (id) => document.getElementById(id).value.trim();
+
+  function fmtDate(iso) {
+    if (!iso) return "";
+    const [y, m, d] = iso.split("-");
+    return `${d}/${m}/${y}`;
+  }
+  function fmtTime(t) {
+    if (!t) return "";
+    let [h, m] = t.split(":").map(Number);
+    const ap = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    return `${h}:${String(m).padStart(2, "0")} ${ap}`;
+  }
+
+  function buildMessage() {
+    const lines = [];
+    const add = (label, value) => { if (value) lines.push(`${label}: ${value}`); };
+    const section = (title) => { lines.push(""); lines.push(`— ${title.toUpperCase()} —`); };
+
+    lines.push("FICHA DE BODA — INVITACIÓN PREMIUM");
+
+    section("La pareja");
+    add("Novia", val("novia"));
+    add("Novio", val("novio"));
+    add("Fecha", fmtDate(val("fecha")));
+    add("Hora ceremonia", fmtTime(val("hora")));
+    add("Lugar ceremonia", val("lugarCeremonia"));
+
+    if (document.getElementById("tienePadres").checked) {
+      section("Padres");
+      add("Padres de la novia", val("padresNovia").replace(/\n+/g, ", "));
+      add("Padres del novio", val("padresNovio").replace(/\n+/g, ", "));
+    }
+
+    const itRows = Array.from(itWrap.querySelectorAll(".repRow"));
+    const itData = itRows
+      .map((r) => ({
+        titulo: r.querySelector(".it-titulo").value.trim(),
+        hora: fmtTime(r.querySelector(".it-hora").value),
+        lugar: r.querySelector(".it-lugar").value.trim(),
+        maps: r.querySelector(".it-maps").value.trim(),
+      }))
+      .filter((r) => r.titulo || r.hora || r.lugar);
+    if (itData.length) {
+      section("Itinerario");
+      itData.forEach((r) => {
+        let line = `• ${r.titulo || "(sin nombre)"}`;
+        if (r.hora) line += ` — ${r.hora}`;
+        if (r.lugar) line += ` — ${r.lugar}`;
+        lines.push(line);
+        if (r.maps) lines.push(`   mapa: ${r.maps}`);
+      });
+    }
+
+    const portada = val("portadaDesc");
+    if (portada) {
+      section("Fotos");
+      add("Portada sugerida", portada);
+      lines.push("(fotos se mandan aparte por este mismo chat)");
+    }
+
+    if (document.getElementById("tieneRegalos").checked) {
+      section("Mesa de regalos");
+      add("Liverpool", val("liverpool"));
+      add("Amazon", val("amazon"));
+      add("Banco", val("banco"));
+      add("Cuenta/CLABE", val("cuenta"));
+    }
+
+    if (document.getElementById("tieneHospedaje").checked) {
+      const hoRows = Array.from(hoWrap.querySelectorAll(".repRow"))
+        .map((r) => ({
+          nombre: r.querySelector(".ho-nombre").value.trim(),
+          texto: r.querySelector(".ho-texto").value.trim(),
+          link: r.querySelector(".ho-link").value.trim(),
+        }))
+        .filter((r) => r.nombre || r.texto);
+      if (hoRows.length) {
+        section("Hospedaje");
+        hoRows.forEach((r) => {
+          let line = `• ${r.nombre || "(sin nombre)"}`;
+          if (r.texto) line += ` — ${r.texto}`;
+          lines.push(line);
+          if (r.link) lines.push(`   link: ${r.link}`);
+        });
+      }
+    }
+
+    section("Código de vestimenta");
+    add("Código", val("dressCode"));
+    add("Colores", val("colores"));
+    add("Mensaje a invitados", val("mensajeAtuendo"));
+
+    section("Contacto y detalles");
+    add("WhatsApp para invitados", val("whatsappContacto"));
+    add("Ciudad", val("ciudad"));
+    add("Notas", val("notas"));
+
+    return lines.join("\n");
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("is-show");
+    setTimeout(() => t.classList.remove("is-show"), 1800);
+  }
+
+  function validate() {
+    if (!val("novia") || !val("novio")) {
+      showToast("Falta el nombre de la novia o el novio");
+      return false;
+    }
+    return true;
+  }
+
+  document.getElementById("btnCopy").addEventListener("click", async () => {
+    if (!validate()) return;
+    const msg = buildMessage();
+    try {
+      await navigator.clipboard.writeText(msg);
+      showToast("Copiado ✓ Pégalo donde quieras");
+    } catch {
+      showToast("No se pudo copiar — intenta seleccionar el texto manualmente");
+    }
+  });
+
+  document.getElementById("btnWhats").addEventListener("click", (e) => {
+    if (!validate()) {
+      e.preventDefault();
+      return;
+    }
+    const msg = buildMessage();
+    e.currentTarget.href = `https://wa.me/${STUDIO_WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  });
+})();
+</script>
+</body>
+</html>
